@@ -1,5 +1,5 @@
 PROG=C:/Users/sukkr/source/repos/Progtest/$1/prog.exe
-TEST=C:/Users/sukkr/source/repos/Progtest/$1/CZE
+TEST=C:/Users/sukkr/source/repos/Progtest/$1/TESTDATA
 for IN_FILE in $TEST/*_in.txt
   do    
   REF_FILE=`echo -n $IN_FILE | sed -e 's/_in\(.*\)$/_out_win\1/'`
