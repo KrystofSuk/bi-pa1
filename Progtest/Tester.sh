@@ -8,7 +8,7 @@ GR='\033[1;30m'
 OR='\033[1;31m'
 NC='\033[0m'
 
-for IN_FILE in $TEST/*_in.txt
+for IN_FILE in $TEST/*$2_in.txt
   do    
   REF_FILE=`echo  $IN_FILE | sed -e 's/_in\(.*\)$/_out_win\1/'`
   $PROG < $IN_FILE > out.txt

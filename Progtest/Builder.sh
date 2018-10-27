@@ -12,7 +12,7 @@ if [ $2 == "test" ]
 then
     echo -e "${CYAN}Test initialized:"
     echo -e "${NC}"
-    printf "$(./Tester.sh $1)"
+    printf "$(./Tester.sh $1 $3)"
 else
     echo "No testing parameter"
     echo -e "${NC}"

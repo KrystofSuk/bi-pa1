@@ -27,10 +27,10 @@ int main(void){
     }
 
     /*Converting to lenghts*/
-    double LenghtsF[3];
-    LenghtsF[0]= sqrt( pow(First[0]-First[2],2)+pow(First[1]-First[3],2));
-    LenghtsF[1]= sqrt( pow(First[2]-First[4],2)+pow(First[3]-First[5],2));
-    LenghtsF[2]= sqrt( pow(First[4]-First[0],2)+pow(First[5]-First[1],2));
+    double LenghtsF[3] = {0,0,0};
+    LenghtsF[0]= sqrt(pow(First[0]-First[2],2)+pow(First[1]-First[3],2));
+    LenghtsF[1]= sqrt(pow(First[2]-First[4],2)+pow(First[3]-First[5],2));
+    LenghtsF[2]= sqrt(pow(First[4]-First[0],2)+pow(First[5]-First[1],2));
     /*Check for compatible triangle*/
     if(CompatibilityTriangle(LenghtsF) != 1){
         printf("Body netvori trojuhelnik.\n");
@@ -94,22 +94,24 @@ int CompatibilityTriangle(double Lenghts[3]){
     int a =0;
     int b =0;
     int c =0;
-    if(Lenghts[0] < Lenghts[1] && Lenghts[0] < Lenghts[2]){
+    if(Lenghts[0] - Lenghts[1] < 10*DBL_EPSILON*Lenghts[2] && Lenghts[0] - Lenghts[2]< 10*DBL_EPSILON*Lenghts[2]){
         a = 0;
-    }else if(Lenghts[1] < Lenghts[0] && Lenghts[1] < Lenghts[2]){
+    }else if(Lenghts[1] - Lenghts[0] < 10*DBL_EPSILON*Lenghts[0] && Lenghts[1] - Lenghts[2]<  10*DBL_EPSILON*Lenghts[2]){
         a = 1;
     }else{
         a = 2;
     }
-    if(Lenghts[0] > Lenghts[1] && Lenghts[0] > Lenghts[2]){
+    //printf("%.20f %.20f %.20f %.20f \n",   Lenghts[1]-Lenghts[0],Lenghts[0]-Lenghts[1],Lenghts[2]-Lenghts[0],Lenghts[2]-Lenghts[1]);
+   // printf("%.20f %.20f\n",   10*DBL_EPSILON*Lenghts[0],10*DBL_EPSILON*Lenghts[1]);
+    if( 10*DBL_EPSILON*Lenghts[0] > Lenghts[1]-Lenghts[0] && 10*DBL_EPSILON*Lenghts[0] > Lenghts[2]-Lenghts[0]){
         c = 0;
-    }else if(Lenghts[1] > Lenghts[0] && Lenghts[1] > Lenghts[2]){
+    }else if(10*DBL_EPSILON*Lenghts[1] > Lenghts[0]-Lenghts[1] &&  10*DBL_EPSILON*Lenghts[1]> Lenghts[2]-Lenghts[1]){
         c = 1;
     }else{
         c = 2;
     }
     if(a == 0 && c==1){
-        b = 0;
+        b = 2;
     }
     if(a == 0 && c==2){
         b = 1;
@@ -127,7 +129,9 @@ int CompatibilityTriangle(double Lenghts[3]){
         b = 0;
     }
     double sum = Lenghts[a]+Lenghts[b]-Lenghts[c];
-    if(sum> 1000*DBL_EPSILON*Lenghts[c]){
+    //printf("%d %d %d \n",  a,  b,  c);
+   // printf("%.20f %.20f \n", sum, 10*DBL_EPSILON*Lenghts[c]);
+    if(sum> 10*DBL_EPSILON*Lenghts[c]){
         return 1;
     }
     return 0;
@@ -146,14 +150,6 @@ int SameTriangle(double LenghtsA[3], double LenghtsB[3]){
     angleC2 = cos((pow(LenghtsB[0],2)+pow(LenghtsB[1],2)-pow(LenghtsB[2],2))/(2*LenghtsB[0]*LenghtsB[1]));
     angleA2 = cos((-pow(LenghtsB[0],2)+pow(LenghtsB[1],2)+pow(LenghtsB[2],2))/(2*LenghtsB[1]*LenghtsB[2]));
     angleB2 = cos((pow(LenghtsB[0],2)-pow(LenghtsB[1],2)+pow(LenghtsB[2],2))/(2*LenghtsB[0]*LenghtsB[2]));
-    /*
-    printf("%f\n", angleA1*180/M_PI);
-    printf("%f\n", angleB1*180/M_PI);
-    printf("%f\n", angleC1*180/M_PI);
-    printf("%f\n", angleA2*180/M_PI);
-    printf("%f\n", angleB2*180/M_PI);
-    printf("%f\n", angleC2*180/M_PI);
-    */
     int count = 0;
     if(angleA1 == angleA2 && angleA1 != 0 && angleA2 != 0){
         count++;
@@ -191,8 +187,6 @@ int SameTriangle(double LenghtsA[3], double LenghtsB[3]){
         count++;
         angleC1 = 0;
         angleC2 = 0;
-    }else{
-        return 0;
     }
     if(angleA1 == angleA2 && angleA1 != 0 && angleA2 != 0){
         count++;
@@ -230,12 +224,9 @@ int SameTriangle(double LenghtsA[3], double LenghtsB[3]){
         count++;
         angleC1 = 0;
         angleC2 = 0;
-    }else{
-        return 0;
     }
     if(count == 2){
         return 1;
-    }else{
-        return 0;
     }
+    return 0;
 }
