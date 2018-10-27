@@ -15,4 +15,5 @@ then
     printf "$(./Tester.sh $1)"
 else
     echo "No testing parameter"
+    echo -e "${NC}"
 fi
