@@ -15,7 +15,6 @@ for IN_FILE in $TEST/*$2_in.txt
   if ! diff $REF_FILE out.txt
   then        
     echo -e "${RED}Fail: ${OR}$IN_FILE | $REF_FILE";
-    exit
   else
     echo -e "${GREEN}OK ${GR}$IN_FILE";
   fi
