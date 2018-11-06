@@ -10,9 +10,34 @@ int main(void){
     double First [6] = {-99,-99,-99,-99,-99,-99};
     double Second [6] = {-99,-99,-99,-99,-99,-99};
     printf("Trojuhelnik #%d:\n", 1);
-    char str [1000];
-    scanf("%[[ {\n\r\t\v]%lf%[ ,;\n\r\t\v]%lf%[][, \n\r\t\v]%lf%[ };\r\t\v]%lf%[], }\n\r\t\v][%lf%[ };\n\r\t\v]%lf]}",str,&First[0],str,&First[1],str,&First[2],str,&First[3],str,&First[4],str,&First[5]);
-   //printf("asd%d \n",tr);
+    if(scanf(" { %lf", &First[0]) == 1){
+        if(scanf(" , %lf", &First[1])==1){
+            if(scanf(" , %lf }", &First[2])==1){
+            }else{
+                
+                printf("Nespravny vstup.\n"); 
+                return 0;
+            }
+        }else{
+            printf("Nespravny vstup.\n"); 
+            return 0;
+        }
+    }else if(scanf(" [ %lf ; %lf ]", &First[0], &First[1]) == 2){
+        if(scanf(" , [ %lf ; %lf ]", &First[2], &First[3]) == 2){
+            if(scanf(" , [ %lf ; %lf ] }", &First[4], &First[5]) == 2){
+
+            }else{
+                printf("Nespravny vstup.\n"); 
+                return 0;
+            }
+        }else{
+            printf("Nespravny vstup.\n"); 
+            return 0;
+        }
+    }else{
+        printf("Nespravny vstup.\n"); 
+        return 0;
+    }
     /*
     printf("%f\n", First[0]);
     printf("%f\n", First[1]);
@@ -28,7 +53,7 @@ int main(void){
         LenghtsF[0]= sqrt(pow(First[0]-First[2],2)+pow(First[1]-First[3],2));
         LenghtsF[1]= sqrt(pow(First[2]-First[4],2)+pow(First[3]-First[5],2));
         LenghtsF[2]= sqrt(pow(First[4]-First[0],2)+pow(First[5]-First[1],2));
-    }else if(First[0] != -99 && First[1] != -99 && First[2]!=-99){
+    }else if(First[0] != -99 && First[1] != -99 && First[2]!=-99 ){
         LenghtsF[0]= First[0];
         LenghtsF[1]= First[1];
         LenghtsF[2]= First[2];
@@ -46,9 +71,43 @@ int main(void){
 
     printf("Trojuhelnik #%d:\n", 2);
 
-    char str2 [1000];
-    scanf("%[[ {\n\r\t\v]%lf%[ ,;\n\r\t\v]%lf%[][, \n\r\t\v]%lf%[ ;\n\r\t\v]%lf%[], \n\r\t\v][%lf%[ ;\n\r\t\v]%lf]}",str2,&Second[0],str2,&Second[1],str2,&Second[2],str2,&Second[3],str2,&Second[4],str2,&Second[5]);
-    
+    if(scanf(" { %lf", &Second[0]) == 1){
+        if(scanf(" , %lf", &Second[1])==1){
+            if(scanf(" , %lf }", &Second[2])==1){
+            }
+            else{
+
+                printf("Nespravny vstup.\n"); 
+                return 0;
+            }
+        }else{
+            printf("Nespravny vstup.\n"); 
+            return 0;
+        }
+    }else if(scanf(" [ %lf ; %lf ]", &Second[0], &Second[1]) == 2){
+        if(scanf(" , [ %lf ; %lf ]", &Second[2], &Second[3]) == 2){
+            if(scanf(" , [ %lf ; %lf ] }", &Second[4], &Second[5]) == 2){
+
+            }else{
+                printf("Nespravny vstup.\n"); 
+                return 0;
+            }
+        }else{
+            printf("Nespravny vstup.\n"); 
+            return 0;
+        }
+    }else{
+        printf("Nespravny vstup.\n"); 
+        return 0;
+    }
+    /*
+    printf("%f\n", Second[0]);
+    printf("%f\n", Second[1]);
+    printf("%f\n", Second[2]);
+    printf("%f\n", Second[3]);
+    printf("%f\n", Second[4]);
+    printf("%f\n", Second[5]);
+    */
     if(Second[0] != -99 && Second[1] != -99 && Second[2]!=-99 && Second[3] != -99 && Second[4] != -99 && Second[5]!=-99){
         
         LenghtsS[0]= sqrt(pow(Second[0]-Second[2],2)+pow(Second[1]-Second[3],2));
