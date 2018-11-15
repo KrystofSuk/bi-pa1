@@ -12,113 +12,97 @@ unsigned long long int hyperloop                           ( unsigned long long 
                                                              unsigned int      * c1,
                                                              unsigned int      * c2 )
 {
-  if(length < bulkhead){
-    return 0;
-  }
-  length-=bulkhead;
+  //0.041s
   unsigned long long int combs = 0;
   int done = 0;
   unsigned int lParts = 0;
   unsigned int sParts = 0;
-  int switched = 0;
-  if(s2 > s1){
-    unsigned int st = s1;
+  unsigned long long int tmpL = 0;
+  if(length < bulkhead){
+    return 0;
+  }
+  length-=bulkhead;
+  int sw= 0;
+  if(s1 < s2){
+    unsigned long long int st = s1;
     s1 = s2;
     s2 = st;
-    switched = 1;
+    sw= 1;
   }
   if(s1 == 0){
-    unsigned long long int tmpLenght = 0;
-    while(tmpLenght < length){
-      tmpLenght += (s2 + bulkhead);
-      lParts ++;
+    while(tmpL < length){
+      sParts++;
+      tmpL += s2 + bulkhead;
+    }
+    if(tmpL == length){
+      combs++;
+      *c1 = 0;
+      *c2 = sParts;
+      printf("Got %u %u\n", *c1, *c2);
     }
     
-    if(tmpLenght == length){
-      if(switched == 0){
-        *c1=0;
-        *c2=lParts;
-      }else{
-        *c2=0;
-        *c1=lParts;
-      }
-      combs++;
-    }
-      
-    printf("C:%llu\n", combs);
-    return combs;
+  printf("C:%llu\n", combs);
+  return combs;
   }
   if(s2 == 0){
-
-    unsigned long long int tmpLenght = 0;
-    while(tmpLenght < length){
-      tmpLenght += (s1 + bulkhead);
-      lParts ++;
+    while(tmpL < length){
+      sParts++;
+      tmpL += s1 + bulkhead;
+    }
+    if(tmpL == length){
+      combs++;
+      *c1 = sParts;
+      *c2 = 0;
+      //printf("Got %u %u\n", *c1, *c2);
     }
     
-    if(tmpLenght == length){
-      if(switched == 0){
-        *c1=lParts;
-        *c2=0;
-      }else{
-        *c2=lParts;
-        *c1=0;
-      }
-      combs++;
-    }
-      
-    printf("C:%llu\n", combs);
-    return combs;
+  //printf("C:%llu\n", combs);
+  return combs;
   }
   if(s1 == s2){
-    
-    unsigned long long int tmpLenght = 0;
-    while(tmpLenght < length){
-      tmpLenght += (s1 + bulkhead);
-      lParts ++;
+    while(tmpL < length){
+      sParts++;
+      tmpL += s2 + bulkhead;
     }
-    
-    if(tmpLenght == length){
-      if(switched == 0){
-        *c1=lParts;
-        *c2=0;
-      }else{
-        *c2=lParts;
-        *c1=0;
-      }
+    if(tmpL == length){
       combs++;
+      *c1 = sParts;
+      *c2 = 0;
+      //printf("Got %u %u\n", *c1, *c2);
     }
-      
-    printf("C:%llu\n", combs);
-    return combs;
+    
+  //printf("C:%llu\n", combs);
+  return combs;
+  }
+  while(tmpL < length){
+    sParts++;
+    tmpL += s2 + bulkhead;
   }
   while(done == 0){
-    sParts = 0;
-    unsigned long long int tmpLenght = (s2 + bulkhead) * lParts;
-    if(tmpLenght > length)
-    {
+    if(tmpL == length){
+      combs++;
+      if(sw == 0){
+      *c1 = lParts;
+      *c2 = sParts;
+      }
+      else{
+      *c1 = sParts;
+      *c2 = lParts;
+      }
+      //printf("Got %u %u\n", *c1, *c2);
+    }
+    if(sParts == 0){
       done = 1;
     }
-    while(tmpLenght < length){
-      //printf("T:%u %u %llu/%llu \n", sParts, lParts, tmpLenght,length);
-      tmpLenght += (s1 + bulkhead);
-      sParts++;
-    }
-  
-    if(tmpLenght == length){
-      
-      if(switched == 0){
-        *c1=sParts;
-        *c2=lParts;
-      }else{
-        *c2=sParts;
-        *c1=lParts;
-      }
-      combs++;
-    }
+    tmpL += (s1 + bulkhead);
     lParts ++;
+    while( tmpL > length){
+      tmpL-= (s2+bulkhead);
+      sParts--;
+    }
   }
-  printf("C:%llu\n", combs);
+
+  //printf("C:%llu\n", combs);
   return combs;
 }
 
@@ -127,7 +111,8 @@ int main ( int argc, char * argv [] )
 {
   unsigned int c1, c2;
   assert ( hyperloop ( 100, 4, 7, 0, &c1, &c2 ) == 4 && 4 * c1 + 7 * c2 + 0 * (c1 + c2 + 1) == 100 );
-  assert ( hyperloop ( 20, 5, 10, 0, &c1, &c2 ) == 3);
+  
+  assert ( hyperloop ( 20, 10, 5, 0, &c1, &c2 ) == 3);
 
   assert ( hyperloop ( 123456, 8, 3, 3, &c1, &c2 ) == 1871 && 8 * c1 + 3 * c2 + 3 * (c1 + c2 + 1) == 123456 );
   assert ( hyperloop ( 127, 12, 8, 0, &c1, &c2 ) == 0 );
