@@ -63,6 +63,7 @@ unsigned long long int hyperloop                           ( unsigned long long 
   sParts = 0;
   lParts= 0;
   mParts = 0;
+  int f = 0;
   
   if(s2 == 0 && s3 == 0 && s1  != 0){
     while(tmpL < length){
@@ -442,7 +443,9 @@ unsigned long long int hyperloop                           ( unsigned long long 
   while(1){
     if(tmpL == length){
       combs++;
-      
+      if(f ==0 ){
+        f=1;
+        
         if(sw == 1 && sw2 == 0){
           *c1 = mParts;
           *c2 = lParts;
@@ -469,6 +472,7 @@ unsigned long long int hyperloop                           ( unsigned long long 
           *c2 = mParts;
           *c3 = sParts;
         }
+      }
     }
     if(mParts == 0){
       break;
@@ -510,7 +514,6 @@ unsigned long long int hyperloop                           ( unsigned long long 
           *c1 = mParts;
           *c2 = sParts;
           *c3 = lParts;
-          //printf("--");
         }   
         if(sw == 0 && sw2 == 1){
           *c1 = lParts;
@@ -546,6 +549,10 @@ unsigned long long int hyperloop                           ( unsigned long long 
         combs++;     
         //printf("ADD: %llu %u*%u %u*%u %u*%u = %u\n", tmpL, sParts,s3, mParts,s2, lParts,s1, (sParts*s3+mParts*s2+lParts*s1));
       
+      if(f ==0 ){
+        
+        f=1;
+        
         if(sw == 1 && sw2 == 0){
           *c1 = mParts;
           *c2 = lParts;
@@ -562,8 +569,8 @@ unsigned long long int hyperloop                           ( unsigned long long 
           *c3 = mParts;
         }
         if(sw == 2 && sw2 == 1){
-          *c1 = mParts;
-          *c2 = sParts;
+          *c1 = sParts;
+          *c2 = mParts;
           *c3 = lParts;
         }      
         if(sw == 0 && sw2 == 0){
@@ -571,6 +578,7 @@ unsigned long long int hyperloop                           ( unsigned long long 
           *c2 = mParts;
           *c3 = sParts;
         }
+      }
       }
       tmpL += (s1 + bulkhead);
       lParts++;
@@ -606,8 +614,11 @@ unsigned long long int hyperloop                           ( unsigned long long 
 #ifndef __PROGTEST__
 int main ( int argc, char * argv [] )
 {
-  unsigned int c1, c2, c3;
+  unsigned int c1, c2, c3 = 0;
  
+  assert(hyperloop ( 8580, 1, 2, 3, 1, &c1, &c2, &c3 )==1534390);
+  printf("%u %u %u ", c1, c2, c3);
+  printf("%u\n",(c1*1+c2*2+c3*3));
   
   assert ( hyperloop ( 100, 4, 7, 5, 0, &c1, &c2, &c3 ) == 42  && 4 * c1 + 7 * c2 + 5 * c3 + 0 * ( c1 + c2 + c3 + 1 ) == 100 );
   assert ( hyperloop ( 12345, 8, 3, 11, 3, &c1, &c2, &c3 ) == 82708 && 8 * c1 + 3 * c2 + 11 * c3 + 3 * ( c1 + c2 + c3 + 1 ) == 12345);
@@ -672,6 +683,9 @@ assert(hyperloop ( 1647, 0, 549, 1098, 0, &c1, &c2, &c3 ) == 2 && 0 * c1 + 549 *
 assert(hyperloop ( 1647, 0, 549, 1098, 0, &c1, &c2, &c3 ) == 2 && 0 * c1 + 549 * c2 + 1098 * c3 + 0 * ( c1 + c2 + c3 + 1 ) == 1647 );
 assert(hyperloop ( 1647, 0, 549, 1098, 0, &c1, &c2, &c3 ) == 2 && 0 * c1 + 549 * c2 + 1098 * c3 + 0 * ( c1 + c2 + c3 + 1 ) == 1647 );
 assert(hyperloop ( 1647, 0, 549, 1098, 0, &c1, &c2, &c3 ) == 2 && 0 * c1 + 549 * c2 + 1098 * c3 + 0 * ( c1 + c2 + c3 + 1 ) == 1647 );
+
+
+  
   return 0;
 }
 #endif /* __PROGTEST__ */
