@@ -616,7 +616,7 @@ int main ( int argc, char * argv [] )
 {
   unsigned int c1, c2, c3 = 0;
  
-  assert(hyperloop ( 8580, 1, 2, 3, 1, &c1, &c2, &c3 )==1534390);
+  /*assert(hyperloop ( 8580, 1, 2, 3, 1, &c1, &c2, &c3 )==1534390);
   printf("%u %u %u ", c1, c2, c3);
   printf("%u\n",(c1*1+c2*2+c3*3));
   
@@ -687,5 +687,7 @@ assert(hyperloop ( 1647, 0, 549, 1098, 0, &c1, &c2, &c3 ) == 2 && 0 * c1 + 549 *
 
   
   return 0;
+
+*/
 }
 #endif /* __PROGTEST__ */
