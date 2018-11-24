@@ -1,2 +1,3 @@
 Mozna umisteni:
-Nespravny vstup.
+Pocet billboardu:
+Vzdalenost: 499
