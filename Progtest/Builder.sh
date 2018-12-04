@@ -5,8 +5,12 @@ EXPORT=C:/Users/sukkr/source/repos/Progtest/$1/prog.exe
 GREEN='\033[1;32m'
 CYAN='\033[1;36m'
 NC='\033[0m'
-
-echo `gcc -Wall -pedantic $CODE -Wno-long-long -O2 -o $EXPORT`
+if [ $4 == "run" ]
+then
+    echo "Run"
+else
+    echo `gcc -Wall -pedantic $CODE -Wno-long-long -O2 -o $EXPORT`
+fi
 echo -e "${GREEN}Compiling finished"
 if [ $2 == "test" ]
 then

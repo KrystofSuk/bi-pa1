@@ -91,6 +91,31 @@ int getPivoted(struct point pos[], int count, double pivot){
   return val;
 }
 
+
+int countBillboards(struct point  pos[], int*len, int count, int dif){
+  int lastDif = 0;
+  int cnt = 1;
+  int minimal = INT_MAX;
+  int lastI = 0;
+  for(int i = 1; i < count; i++){
+  
+    lastDif += pos[i].value-pos[i-1].value;
+     
+    if(lastDif >= dif){ 
+      if(pos[i].value-pos[lastI].value < minimal){
+        minimal = pos[i].value-pos[lastI].value;
+        printf("MIN: %d %d %d %d\n",cnt,minimal, pos[i].value,pos[i-1].value);
+      } 
+      cnt++;
+      lastDif = pos[i].value-pos[i-1].value;
+      printf("%d<%d %d\n",pos[i].value,pos[lastI].value,i);
+      lastI = i;
+    }
+  }  
+  *len = minimal;
+  return cnt;
+}
+
 /**
  * @brief is function for calculating shortest distance between two billboards
  * 
@@ -101,34 +126,27 @@ int getPivoted(struct point pos[], int count, double pivot){
  * @return int is minimum lenght between bilboards  
  */
 int distanceBillboards(struct point pos[], int ref[], int count, int req){
-  int dist = -1;
+  int dist = 0;
+  int best = 0;
+  int cnt = 0;
+  int largest = 0;
+  int len =0 ;
+  //int max = countBillboards(pos, count, 1);
   
-  double pivot = ((double)(pos[count-1].value-pos[0].value)/(req-1.0));
-  
-  ref[0]=pos[0].value;
-  int index= 1;
-  for(int i = 1; i < req -1; i++){
 
-    double next = pivot*(i)+(double)pos[0].value;
-    int tmp = getPivoted(pos, count, next);
-    
-    if(ref[index-1]!=tmp){
-      ref[index] = tmp;
-      index++;
-    }
-  }
-  index++;
-  ref[index-1]=pos[count-1].value;
-  int smal = ref[index-1]-ref[0];
-          
-  for(int x = 1; x < index; x++){
-    if(smal > ref[x]-ref[x-1]){
-      smal = ref[x]-ref[x-1];
-    }
-  }
+  best = countBillboards(pos,&len, count, 8);
+  printf("B: %d %d %d %d\n",best, req, len, req);  
+
+  for(int i = 0; i < pos[count-1].value; i++){
+
+    if(best <= req){
       
-  dist = smal;
-  return dist;
+      best = len;
+      break;
+    }
+  }
+
+  return best;
 }
 
 int main (void){  
@@ -165,6 +183,8 @@ int main (void){
       printf("N/A\n");
     }else if(req > count){
       printf("Vzdalenost: 0\n");
+    }else if(req == 2){
+      printf("Vzdalenost: %d\n", pos[count-1].value-pos[0].value);
     }else{
       int len = distanceBillboards(pos,refPos,count,req);
       printf("Vzdalenost: %d\n", len);
