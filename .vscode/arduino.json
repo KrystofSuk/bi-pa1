@@ -1,5 +1,0 @@
-{
-    "board": "arduino:avr:esplora",
-    "sketch": "ARD\\CV1.ino",
-    "port": "COM4"
-}
