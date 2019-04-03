@@ -1,5 +1,5 @@
 # BI-PA1
-This is my programs in C from PA1 course from my school. It's not documented sorry :confused: but it could help someone who wants to have some inspiration for solving PA1 homeworks.
+This is my programs in C from 2018/19 PA1 winter course from my school. It's not documented sorry :confused: but it could help someone who wants to have some inspiration for solving PA1 homeworks.
 
 I hope it will help others to succesfully complete this subject. :green_heart:
 
